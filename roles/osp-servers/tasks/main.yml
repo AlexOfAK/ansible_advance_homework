@@ -1,10 +1,12 @@
 ---
 
 # tasks file for osp.servers
-- name: Create new server instances and attaches them a network and passes metadata to the instance
+- name: Create new server instances and attach them to a network and pass metadata to the instance
 
 
 - name: Add floating IP to Servers
    
 
 - name: Wait for server to be available
+  wait_for:
+    port: 22
