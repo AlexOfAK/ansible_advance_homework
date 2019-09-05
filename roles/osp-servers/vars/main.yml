@@ -1,5 +1,14 @@
 ---
 # vars file for osp.servers
+ospem_path: "/root/.ssh/openstack.pem"
+ospub_path: "root/.ssh/openstack.pub"
+mykey_path: "root/.ssh/mykey.pem"
+
+osp_image: rhel-guest
+ansible_key: ansible_ssh
+osp_flavor: m2.small
+public_network: ext_network
+
 osp_servers:
   frontend:
     name: frontend
