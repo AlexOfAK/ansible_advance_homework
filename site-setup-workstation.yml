@@ -7,7 +7,6 @@
        name: "workstation-{{OSP_GUID}}.rhpds.opentlc.com"
        group: workstation
 
-
 - hosts: workstation
   become: yes
   roles:
@@ -15,3 +14,4 @@
 
 - import_playbook: site-install-isolated-node.yml 
 
+- import_playbook: site-osp-instances.yml

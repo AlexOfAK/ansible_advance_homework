@@ -1,0 +1,6 @@
+---
+- name: create workstation group
+  add_host:
+    name: "workstation-987e.rhpds.opentlc.com"
+    group: workstation
+
