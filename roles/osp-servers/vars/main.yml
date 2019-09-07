@@ -9,12 +9,7 @@ osp_image: rhel-guest
 ansible_key: ansible_ssh
 osp_flavor: m2.small
 public_network: ext_network
-auth_url: 192.168.0.20:5000/
-osp_username: admin
-osp_password: r4dh4t1!
-
-
-
+yum_repo: http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
 
 osp_servers:
   frontend:
@@ -24,8 +19,10 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m2.small
     security_group: frontend
-    meta:
-      - { group: frontends, deployment_name: QA}
+    network: ext_network
+    meta: 
+     group: frontends
+     deployment_name: QA
   app1:
     name: app1
     state: present
@@ -33,8 +30,10 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m2.small
     security_group: apps
-    meta:
-      - { group: apps, deployment_name: QA}
+    network: ext_network
+    meta: 
+      group: frontends
+      deployment_name: QA
   app2:
     name: app2
     state: present
@@ -42,8 +41,10 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m2.small
     security_group: apps
-    meta:
-      - { group: apps, deployment_name: QA}
+    network: ext_network
+    meta: 
+      group: frontends
+      deployment_name: QA
   db:
     name: db
     state: present
@@ -51,5 +52,7 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m2.small
     security_group: db
-    meta:
-      - { group: appdbs, deployment_name: QA}
+    network: ext_network
+    meta: 
+      group: frontends
+      deployment_name: QA

@@ -3,58 +3,29 @@
 
 - name: Create frontend server instances and attach them to a network and pass metadata to the instance
   os_server:
-    auth: 
-      auth_url: 192.168.0.20:5000/
-      project_name: admin
-      username: admin
-      password: "{{ osp_password }}"
-    identity_api_version: "3.0"
-    region_name: RegionOne
-    name: frontend
-    state: present
-    image: "{{ osp_image }}"
-    key_name: "{{ ansible_key }}"
-    flavor: "{{ osp_flavor }}"
-    security_group: frontend
-    network: "{{ public_network }}"
-#    floating_ips:
-#      - 1.1.1.1
-    meta:
-      - { group: frontends, deployment_name: QA}
+    name: "{{ item.key }}"
+    state: "{{ item.value.state }}"
+    image: "{{ item.value.image }}"
+    key_name: "{{ item.value.key_name }}"
+    flavor: "{{ item.value.flavor }}"
+    security_groups: "{{ item.value.security_group }}"
+    network: "{{ item.value.network }}"
+    meta: "{{ item.value.meta }}"
+  with_dict: "{{ osp_servers }}"
 
-#- name: Create frontend server instances and attach them to a network and pass metadata to the instance
-#    os_server:
-#      name: app1
-#      state: present
-#      image: "{{ osp_image }}"
-#      key_name: "{{ ansible_key }}"
-#      flavor: "{{ osp_flavor }}"
-#      security_group: apps
-#      meta:
-#        - { group: apps, deployment_name: QA}
-#    app2:
-#      name: app2
-#      state: present
-#      image: "{{ osp_image }}"
-#      key_name: "{{ ansible_key }}"
-#      flavor: "{{ osp_flavor }}"
-#      security_group: apps
-#      meta:
-#        - { group: apps, deployment_name: QA}
-#    db:
-#      name: db
-#      state: present
-#      image: "{{ osp_image }}"
-#      key_name: "{{ ansible_key }}"
-#      flavor: "{{ osp_flavor }}"
-#      security_group: db
-#      meta:
-#        - { group: appdbs, deployment_name: QA}
+- name: Use the organization's local yum repo
+  yum_repository:
+    name: "{{ item.key }}"
+    baseurl: "{{ item.value.baseurl }}"
+    enabled: "{{ item.value.enabled }}"
+    gpgcheck: "{{ item.value.gpgcheck }}"
+  with_dict: "{{ yum_repo }}"
+#  loop: "{{ x }}"
 
-
-#- name: Add floating IP to Servers
-   
-
-#- name: Wait for server to be available
-#  wait_for:
-#    port: 22
+- name: Add floating IP to Servers
+  os_floating_ip:
+    server: frontend
+     
+- name: Wait for server to be available
+  wait_for:
+    port: 22
