@@ -16,15 +16,17 @@
 - name: Use the organization's local yum repo
   yum_repository:
     name: "{{ item.key }}"
+    description: "{{ item.value.description }}"
     baseurl: "{{ item.value.baseurl }}"
     enabled: "{{ item.value.enabled }}"
     gpgcheck: "{{ item.value.gpgcheck }}"
-  with_dict: "{{ yum_repo }}"
-#  loop: "{{ x }}"
+    failovermethod: "{{ item.failovermethod | default('roundrobin') }}"
+  with_dict: "{{ yum_repos }}"
 
 - name: Add floating IP to Servers
   os_floating_ip:
-    server: frontend
+    server: "{{ item.key }}"
+  with_dict: "{{ osp_servers }}"
      
 - name: Wait for server to be available
   wait_for:
