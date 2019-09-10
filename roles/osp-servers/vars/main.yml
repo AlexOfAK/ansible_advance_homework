@@ -1,15 +1,14 @@
 ---
 # vars file for osp.servers
-ospem_path: "/root/.ssh/openstack.pem"
-ospub_path: "root/.ssh/openstack.pub"
-mykey_path: "root/.ssh/mykey.pem"
+ospem_path: ~/.ssh/openstack.pem
+ospub_path: ~/.ssh/openstack.pub
+mykey_path: ~/.ssh/mykey.pem
 
 
 osp_image: rhel-guest
 ansible_key: ansible_ssh
 osp_flavor: m2.small
 public_network: ext_network
-#yum_repo: http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
 
 yum_repos:
   rhel-7-server-rpms:
@@ -80,7 +79,7 @@ osp_servers:
     key_name: ansible_ssh
     flavor: m2.small
     security_group: db
-    network: ext_network
+    network: ext_networ
     meta: 
       group: frontends
       deployment_name: QA
