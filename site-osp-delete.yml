@@ -1,4 +1,10 @@
+- name: create the workstation group
+  hosts: localhost
+  roles:
+  - create-workstation
+
 - hosts: workstation
   become: yes
+  gather_facts: false
   roles:
     - osp-instance-delete

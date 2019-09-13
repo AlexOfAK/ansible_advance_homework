@@ -1,3 +1,4 @@
+---
 - hosts: localhost
   gather_facts: false
   tasks:
@@ -7,6 +8,7 @@
       group: workstation
       ansible_ssh_private_key_file: ~/.ssh/openstack.pem
       ansible_ssh_user: cloud-user
+
  
 - hosts: workstation
   gather_facts: false
@@ -16,7 +18,6 @@
       cloud: ospcloud
       server: 'frontend'
     register: openstack_info
-
   - name: Curl website
     command: curl "http://{{item.public_v4}}"
     with_items:
@@ -33,7 +34,8 @@
   - name: Curl website
     command: curl "http://frontend1.{{ ANSIBLE_ADVANCE_GUID }}.example.opentlc.com"
     register: webpage
-  - debug: var=webpage.stdout
+  - name: debug webpage curl
+    debug: var=webpage.stdout
   - name: Fail
     fail:
     when: "'Ansible' not in webpage.stdout" 

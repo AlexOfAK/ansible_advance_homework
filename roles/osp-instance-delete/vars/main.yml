@@ -1,2 +1,19 @@
 ---
-# vars file for roles/osp-instance-delete
+
+osp_servers:
+  frontend:
+    name: frontend
+    state: absent
+    image: rhel-guest
+  app1:
+    name: app1
+    state: absent
+    image: rhel-guest
+  app2:
+    name: app2
+    state: absent
+    image: rhel-guest
+  db:
+    name: db
+    state: absent
+    image: rhel-guest

@@ -1,10 +1,13 @@
+- name: create the workstation group
+  hosts: localhost
+  roles:
+  - create-workstation
+
 - hosts: workstation
   gather_facts: true
+  become: yes
   roles:
   - name: osp-facts
-
-# Setup front-end load balancer tier
-
 
 - name: setup load-balancer tier
   hosts: frontends
@@ -13,7 +16,8 @@
     - {name: base-config, tags: base-config}
     - {name: lb-tier, tags: [lbs, haproxy]}
 
-# Setup application servers tier
+#- name: import aws smoke test
+#  import_playbook: site-smoketest-aws.yml
 
 - name: setup app tier
   hosts: apps
@@ -22,8 +26,6 @@
   roles:
     - {name: base-config, tags: base-config}
     - {name: app-tier, tags: [apps, tomcat]}
-
-# Setup database tier
 
 - name: setup database tier
   become: yes
